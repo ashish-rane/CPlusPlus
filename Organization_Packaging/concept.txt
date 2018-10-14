@@ -1,0 +1,86 @@
+
+1. Download base package (Windows/Linux)
+- contains a .BAT or shell script to create standard project structure.
+- with standard CMakeList.txt with all necessary configuration for versioning, build and install steps.
+- standard configuration like Remote Repository URL, GIT URL etc.. 
+- standard scripts to release the install contents to remote Repository in a standard structure.
+
+2. execute the .bat/.sh script to create/update project (this script is only needed to be 
+   executed once then it will be registered with Git and for further development
+   other engineers can simply clone the repo)
+
+   Parameters:
+   --mode=create|update - create a new project or update the dependencies.
+   --type=component|application: whether to build a shared lib or executable.
+
+   --project-path=<path> : path to directory where the project should be created or cloned in local file system.
+   --project-name=<name> : name of the project/component
+   
+   --dependency-file=<path to dependencies.txt> space seperated file containing list of components and their versions
+                     to bring into the project (The dependent components dont form part of this repository)
+    
+   --import-depedencies=true|false : indicates whether to import dependencies into project directories 
+                                    as part of creation or update. By default true.
+
+What this script directories
+    - creates a standard CMake project structure with the given name at the given path.
+    - copies the dependencies.txt for this project into the projects root directory.
+    - parses the dependencies.txt and copies the dependent component files into the local_repo.
+    - parses the dependencies.txt of each of the dependent component and copies transitive dependencies.txt
+      NOTE: if the same component is found in multiple dependencies.txt but of different versions
+            the script flags an error and list the available versions and prompts which version to use.
+    - copies common scripts required for packaging and release alongwith common configuration files.
+    
+    Project Structure
+        Project-Name (Project-Root)
+            |
+            |----file dependencies.txt (list of other version components that this component depends on)
+            |----file CMakeLists.txt
+            |---- local_repo
+            |       |
+            |       |---dir bin (any test clients for dependent components/ for windows .dll files)
+            |       |---dir include (headers for dependent component)
+            |       |---dir lib (shared libraries of dependent components)
+            |       |---dir config: Configuration files for dependent components
+            |       |---dir doc (documentation/release notes)
+            |       |---file <component_name_1_dependencies.txt
+            |       |---file <component_name_2_dependencies.txt
+            |
+            |----- src - contains this projects sources. If additional subdirs are created under 
+            |        |     include|source then additional CMakeLists.txt should be manually 
+            |        |    added to include those in the project.
+            |        |
+            |        |---dir  include
+            |        |---dir  source
+            |        |---dir  resources
+            |
+            |-----dir  test (if additional directories are created CMakeLists.txt should be created to include them)
+            |       |
+            |       |--- file: unit_tests.cpp
+            |
+            |----- build dir  ( CMake build directory)
+            |       |
+            |       |-----dir  install (
+            |                        if type= component => directory where the versioned component files 
+            |                        are created for release to remote repository. this will not contain the 
+            |                          include,lib files for dependent components)
+            |                        
+            |                        if type=application => directory where the version application
+            |                        is created alongwith all the dependent component libaries and configuration
+            |                        files etc..so that it can be self contained application that can be run.
+            |                        this can be then packaged (gzip,tar) and release to remote repo using
+            |                        the deploy scripts in the common_scripst folder.
+            |                       
+            |
+            |
+            |---- dir common_scripts (directory which contains this script and scripts to deploy release to remove repository )
+            |       |
+
+            |       |---- initialize_project.bat/initialize_project.sh
+                    |---- release_component.bat/release_component.sh
+                    |---- release_application.bat/release_application.sh
+                    |---- run_unit_tests.bat/run_unit_tests.sh
+                    |---- common_config.txt (remote repo url etc..)
+                    
+
+

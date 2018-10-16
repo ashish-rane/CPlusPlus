@@ -1,6 +1,0 @@
-https://stackoverflow.com/questions/34709286/cmake-configure-deep-sub-folder-tree
-https://stackoverflow.com/questions/40227333/cmake-setup-multiple-projects-and-dependiencies-between-them
-https://stackoverflow.com/questions/8934295/add-source-in-a-subdirectory-to-a-cmake-project
-https://stackoverflow.com/questions/34709286/cmake-configure-deep-sub-folder-tree
-https://stackoverflow.com/questions/34709286/cmake-configure-deep-sub-folder-tree
-https://stackoverflow.com/questions/9673326/cmakelists-txt-files-for-multiple-libraries-and-executables

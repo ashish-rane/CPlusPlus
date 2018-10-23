@@ -34,7 +34,7 @@ foreach(dir ${LIB_INCLUDE_DIRS})
 endforeach(dir ${LIB_INCLUDE_DIRS})
 
 # add public include directories for public headers (to be used by this library and its clients)
-target_include_directories(${LIB_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR}/include)
+target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 
 target_link_libraries(${LIB_NAME} ${LIB_DEPENDENCIES}) 
 
@@ -45,8 +45,10 @@ install(TARGETS ${LIB_NAME}
         ARCHIVE DESTINATION ${INSTALL_ROOT_DIR}/lib
         )
 
+message(STATUS "Include Directories " ${INCLUDE_DIRECTORIES})
+message(STATUS "Interface Include Directories " ${INTERFACE_INCLUDE_DIRECTORIES})
 
-INSTALL( DIRECTORY ${INTERFACE_INCLUDE_DIRECTORIES}/ 
+INSTALL( DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/ 
             DESTINATION ${INSTALL_ROOT_DIR}/include
             FILES_MATCHING
             PATTERN "*.h")

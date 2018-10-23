@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(TodoListWS)
 
 set (LOCAL_REPO_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/local_repo)
+set (INSTALL_ROOT_DIR ${CMAKE_BINARY_DIR}/install)
 
 message(STATUS "Local Repo Root Set: " ${LOCAL_REPO_ROOT})
 
@@ -18,4 +19,7 @@ message(STATUS "RUNTIME OUTPUT DIR Set: " ${LOCAL_REPO_ROOT})
 # Add subdirectories for projects
 add_subdirectory(TodoListLib)
 add_subdirectory(TodoListClient)
+
+# Install
+
 

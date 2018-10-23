@@ -28,8 +28,26 @@ else(WIN32)
     set_target_properties(${LIB_NAME} PROPERTIES SUFFIX ".so")
 endif(WIN32)
 
+# add private include directories for private headers (to build this library)
 foreach(dir ${LIB_INCLUDE_DIRS})
-    target_include_directories(${LIB_NAME} PUBLIC ${dir})
+    target_include_directories(${LIB_NAME} PRIVATE ${dir})
 endforeach(dir ${LIB_INCLUDE_DIRS})
 
+# add public include directories for public headers (to be used by this library and its clients)
+target_include_directories(${LIB_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR}/include)
+
 target_link_libraries(${LIB_NAME} ${LIB_DEPENDENCIES}) 
+
+message(STATUS "INSTALL ROOT DIR " ${INSTALL_ROOT_DIR})
+
+install(TARGETS ${LIB_NAME} 
+        RUNTIME DESTINATION ${INSTALL_ROOT_DIR}/bin
+        ARCHIVE DESTINATION ${INSTALL_ROOT_DIR}/lib
+        )
+
+
+INSTALL( DIRECTORY ${INTERFACE_INCLUDE_DIRECTORIES}/ 
+            DESTINATION ${INSTALL_ROOT_DIR}/include
+            FILES_MATCHING
+            PATTERN "*.h")
+

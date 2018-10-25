@@ -3,6 +3,13 @@ set(LIB_SOURCES)
 set(LIB_INCLUDE_DIRS)
 set(LIB_NAME TodoListLib)
 
+#version
+set(MY_PRODUCT_NUMBER 3)
+set(MY_PRODUCT_VERSION 5)
+set(MY_BUILD_NUMBER 49)
+set(LIB_VERSION ${MY_PRODUCT_NUMBER}.${MY_PRODUCT_VERSION}.${MY_BUILD_NUMBER})# tobe changed
+set(MY_COMPANY_NAME "Test Company")
+
 include_directories(${LOCAL_REPO_ROOT}/include) # use to include dependencies headers
 link_directories(${LOCAL_REPO_ROOT}/lib)
 
@@ -19,8 +26,22 @@ message(STATUS "Lib Sources " ${LIB_NAME} " : " ${LIB_SOURCES} )
 message(STATUS "Lib Include " ${LIB_NAME} " : " ${LIB_INCLUDE_DIRS} )
 message(STATUS "Lib Dependencies" ${LIB_DEPENDENCIES} )
 
-add_library(${LIB_NAME} SHARED ${LIB_SOURCES} )
+# provide version.rc (only for windows)
+if(WIN32)
+    # configure file will copy the version.rc.in to target as version.rc and also replace
+    # the variable values in the file.
+    configure_file(
+        ${CMAKE_CURRENT_LIST_DIR}/version.rc.in
+        ${CMAKE_CURRENT_BINARY_DIR}/version.rc
+        @ONLY)
+        add_library(${LIB_NAME} SHARED ${LIB_SOURCES} 
+                    ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
+else(WIN32)
+    add_library(${LIB_NAME} SHARED ${LIB_SOURCES} )
+endif(WIN32)
+
 set_target_properties(${LIB_NAME} PROPERTIES PREFIX "")
+set_target_properties(${LIB_NAME} PROPERTIES VERSION "${LIB_VERSION}")
 set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME "${LIB_NAME}")
 if(WIN32)
     set_target_properties(${LIB_NAME} PROPERTIES SUFFIX ".dll")
@@ -40,17 +61,21 @@ target_link_libraries(${LIB_NAME} ${LIB_DEPENDENCIES})
 
 message(STATUS "INSTALL ROOT DIR " ${INSTALL_ROOT_DIR})
 
+ 
+
+set(VERSIONED_INSTALL_ROOT_DIR ${INSTALL_ROOT_DIR}/${LIB_NAME}_${LIB_VERSION})
+
 install(TARGETS ${LIB_NAME} 
-        RUNTIME DESTINATION ${INSTALL_ROOT_DIR}/bin
-        ARCHIVE DESTINATION ${INSTALL_ROOT_DIR}/lib
-        LIBRARY DESTINATION ${INSTALL_ROOT_DIR}/lib
+        RUNTIME DESTINATION ${VERSIONED_INSTALL_ROOT_DIR}/bin
+        ARCHIVE DESTINATION ${VERSIONED_INSTALL_ROOT_DIR}/lib
+        LIBRARY DESTINATION ${VERSIONED_INSTALL_ROOT_DIR}/lib
         )
 
 message(STATUS "Include Directories " ${INCLUDE_DIRECTORIES})
 message(STATUS "Interface Include Directories " ${INTERFACE_INCLUDE_DIRECTORIES})
 
 INSTALL( DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/ 
-            DESTINATION ${INSTALL_ROOT_DIR}/include
+            DESTINATION ${VERSIONED_INSTALL_ROOT_DIR}/include
             FILES_MATCHING
             PATTERN "*.h")
 

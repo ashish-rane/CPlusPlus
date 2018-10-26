@@ -4,17 +4,18 @@ set(LIB_INCLUDE_DIRS)
 set(LIB_NAME TodoListLib)
 
 #version
-set(MY_PRODUCT_NUMBER 3)
-set(MY_PRODUCT_VERSION 5)
-set(MY_BUILD_NUMBER 49)
-set(LIB_VERSION ${MY_PRODUCT_NUMBER}.${MY_PRODUCT_VERSION}.${MY_BUILD_NUMBER})# tobe changed
-set(MY_COMPANY_NAME "Test Company")
+file(STRINGS "version.txt" LIB_VERSION)
 
+#include dependent component "include" directory
 include_directories(${LOCAL_REPO_ROOT}/include) # use to include dependencies headers
+
+# link directories for dependencies
 link_directories(${LOCAL_REPO_ROOT}/lib)
 
+# run the child CMakeList
 include(src/CMakeLists.txt)
 
+# Get List of libs to link this with
 if(WIN32)
     file(GLOB LIB_DEPENDENCIES "${LOCAL_REPO_ROOT}/lib/*.lib") # Can change later to only link to certain libraries
 else(WIN32)
@@ -28,6 +29,11 @@ message(STATUS "Lib Dependencies" ${LIB_DEPENDENCIES} )
 
 # provide version.rc (only for windows)
 if(WIN32)
+    #Parse Lib Version to create PRODUCT_NUMBER,PRODUCT_VER and BUILD NUMBER
+    string(REPLACE "." ";" PARTS ${LIB_VERSION})
+    list (GET PARTS 0 PRODUCT_NUMBER )
+    list (GET PARTS 1 PRODUCT_VERSION)
+    list (GET PARTS 2 BUILD_NUMBER)
     # configure file will copy the version.rc.in to target as version.rc and also replace
     # the variable values in the file.
     configure_file(
@@ -60,9 +66,6 @@ target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 target_link_libraries(${LIB_NAME} ${LIB_DEPENDENCIES}) 
 
 message(STATUS "INSTALL ROOT DIR " ${INSTALL_ROOT_DIR})
-
- 
-
 set(VERSIONED_INSTALL_ROOT_DIR ${INSTALL_ROOT_DIR}/${LIB_NAME}_${LIB_VERSION})
 
 install(TARGETS ${LIB_NAME} 

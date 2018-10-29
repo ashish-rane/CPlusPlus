@@ -5,7 +5,7 @@
 using namespace std;
 using namespace TodoListComponent;
 
-void main (int argc, char* argv[])
+int main (int argc, char* argv[])
 {
     cout << "Test Client : Todo List Library" << endl;
 
@@ -18,4 +18,6 @@ void main (int argc, char* argv[])
 
     char c;
     cin >> c;
+
+    return 0;
 }

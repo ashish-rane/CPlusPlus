@@ -17,6 +17,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # set libary name
 set(LIB_NAME TariffLib)
 set(TESTCLIENT TariffClient)
+set(COMPONENT_NAME Tariff)
 
 #version : from file
 file(STRINGS "version.txt" LIB_VERSION)
@@ -41,6 +42,5 @@ set (INSTALL_ROOT_DIR ${CMAKE_BINARY_DIR}/install/${LIB_NAME}_${LIB_VERSION})
 # Add subdirectories for projects
 add_subdirectory(TariffLib)
 add_subdirectory(TariffClient)
-
 
 

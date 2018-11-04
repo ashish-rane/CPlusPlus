@@ -11,5 +11,8 @@ target_link_libraries(${TESTCLIENT} ${LIB_NAME})
 install(TARGETS ${TESTCLIENT}
         RUNTIME DESTINATION ${INSTALL_ROOT_DIR}/bin)
 
-
-
+if(WIN32)
+        install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/deploy.bat ${INSTALL_ROOT_DIR} ${COMPONENT_NAME})")
+else(WIN32)
+        install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/deploy.sh ${INSTALL_ROOT_DIR} ${COMPONENT_NAME})")
+endif(WIN32)

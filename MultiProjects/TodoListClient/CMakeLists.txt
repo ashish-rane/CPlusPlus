@@ -9,7 +9,7 @@ target_link_libraries(${TESTCLIENT} ${LIB_NAME})
 
 # install in bin
 install(TARGETS ${TESTCLIENT}
-        RUNTIME DESTINATION ${INSTALL_ROOT_DIR}/bin)
+        DESTINATION ${INSTALL_ROOT_DIR}/bin)
 
 
 

@@ -11,6 +11,8 @@ target_link_libraries(${TESTCLIENT} ${LIB_NAME})
 install(TARGETS ${TESTCLIENT}
         RUNTIME DESTINATION ${INSTALL_ROOT_DIR}/bin)
 
+#set(COMPONENT ${COMPONENT_NAME})
+message(STATUS "CMAKE_INSTALL_COMPONENT " ${COMPONENT})
 if(WIN32)
         install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/deploy.bat ${INSTALL_ROOT_DIR} ${COMPONENT_NAME})")
 else(WIN32)

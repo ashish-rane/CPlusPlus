@@ -9,7 +9,11 @@ target_link_libraries(${TESTCLIENT} ${LIB_NAME})
 
 # install in bin
 install(TARGETS ${TESTCLIENT}
-        DESTINATION ${INSTALL_ROOT_DIR}/bin)
+        RUNTIME DESTINATION ${INSTALL_ROOT_DIR}/bin)
 
-
-
+message(STATUS "CMAKE_INSTALL_COMPONENT " ${COMPONENT})
+if(WIN32)
+        install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/deploy.bat ${INSTALL_ROOT_DIR} ${COMPONENT_NAME})")
+else(WIN32)
+        install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/deploy.sh ${INSTALL_ROOT_DIR} ${COMPONENT_NAME})")
+endif(WIN32)

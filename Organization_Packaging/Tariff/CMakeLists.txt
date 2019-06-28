@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(TodoListWS)
+project(TariffWS)
 
 # set local repository directory and target installation dir
 set (LOCAL_REPO_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/local_repo)
@@ -15,8 +15,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #message(STATUS "RUNTIME OUTPUT DIR Set: " ${LOCAL_REPO_ROOT})
 
 # set libary name
-set(LIB_NAME TodoListLib)
-set(TESTCLIENT TodoListClient)
+set(LIB_NAME TariffLib)
+set(TESTCLIENT TariffClient)
+set(COMPONENT_NAME Tariff)
 
 #version : from file
 file(STRINGS "version.txt" LIB_VERSION)
@@ -39,8 +40,7 @@ endif(WIN32)
 set (INSTALL_ROOT_DIR ${CMAKE_BINARY_DIR}/install/${LIB_NAME}_${LIB_VERSION})
 
 # Add subdirectories for projects
-add_subdirectory(TodoListLib)
-add_subdirectory(TodoListClient)
-
+add_subdirectory(TariffLib)
+add_subdirectory(TariffClient)
 
 

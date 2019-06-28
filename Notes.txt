@@ -5,7 +5,11 @@ https://stackoverflow.com/questions/34709286/cmake-configure-deep-sub-folder-tre
 https://stackoverflow.com/questions/34709286/cmake-configure-deep-sub-folder-tree
 https://stackoverflow.com/questions/9673326/cmakelists-txt-files-for-multiple-libraries-and-executables
 
-https://rix0r.nl/blog/2015/08/13/cmake-guide/
+http://derekmolloy.ie/hello-world-introductions-to-cmake/
+https://pusling.com/blog/?p=352
+https://mirkokiefer.com/cmake-by-example-f95eb47d45b1
+https://stackoverflow.com/questions/6693100/how-to-generate-windows-dll-versioning-information-with-cmake
+
 
 
 Therefore, suppose you are creating a library A that uses some Boost headers. You would do:
